@@ -1,0 +1,161 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Run tests
+        run: mvn test
+        continue-on-error: true
+      - name: Calculate Grade
+        id: grade
+        if: always()
+        run: |
+          # Parse test results from Maven Surefire XML reports
+          if [ -d "target/surefire-reports" ]; then
+            TESTS=$(grep -r "tests=" target/surefire-reports/TEST-*.xml | sed -n 's/.*tests="\([0-9]*\)".*/\1/p' | awk '{s+=$1} END {print s}')
+            FAILURES=$(grep -r "failures=" target/surefire-reports/TEST-*.xml | sed -n 's/.*failures="\([0-9]*\)".*/\1/p' | awk '{s+=$1} END {print s}')
+            ERRORS=$(grep -r "errors=" target/surefire-reports/TEST-*.xml | sed -n 's/.*errors="\([0-9]*\)".*/\1/p' | awk '{s+=$1} END {print s}')
+            SKIPPED=$(grep -r "skipped=" target/surefire-reports/TEST-*.xml | sed -n 's/.*skipped="\([0-9]*\)".*/\1/p' | awk '{s+=$1} END {print s}')
+            
+            # Default to 0 if values are empty
+            TESTS=${TESTS:-0}
+            FAILURES=${FAILURES:-0}
+            ERRORS=${ERRORS:-0}
+            SKIPPED=${SKIPPED:-0}
+            
+            # Calculate passed tests
+            PASSED=$((TESTS - FAILURES - ERRORS - SKIPPED))
+            
+            # Calculate grade (percentage)
+            if [ $TESTS -gt 0 ]; then
+              GRADE=$((PASSED * 100 / TESTS))
+            else
+              GRADE=0
+            fi
+            
+            echo "Total Tests: $TESTS"
+            echo "Passed: $PASSED"
+            echo "Failed: $FAILURES"
+            echo "Errors: $ERRORS"
+            echo "Skipped: $SKIPPED"
+            echo "Grade: ${GRADE}%"
+            
+            # Set outputs for other steps
+            echo "tests=$TESTS" >> $GITHUB_OUTPUT
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+            echo "failed=$FAILURES" >> $GITHUB_OUTPUT
+            echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+            echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
+            echo "grade=$GRADE" >> $GITHUB_OUTPUT
+          else
+            echo "No test results found"
+            echo "tests=0" >> $GITHUB_OUTPUT
+            echo "passed=0" >> $GITHUB_OUTPUT
+            echo "failed=0" >> $GITHUB_OUTPUT
+            echo "errors=0" >> $GITHUB_OUTPUT
+            echo "skipped=0" >> $GITHUB_OUTPUT
+            echo "grade=0" >> $GITHUB_OUTPUT
+          fi
+      - name: Comment Grade on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const grade = '${{ steps.grade.outputs.grade }}';
+            const tests = '${{ steps.grade.outputs.tests }}';
+            const passed = '${{ steps.grade.outputs.passed }}';
+            const failed = '${{ steps.grade.outputs.failed }}';
+            const errors = '${{ steps.grade.outputs.errors }}';
+
+            const body = `## 📊 Autograding Results
+
+            **Grade: ${grade}%**
+
+            | Metric | Count |
+            |--------|-------|
+            | Total Tests | ${tests} |
+            | ✅ Passed | ${passed} |
+            | ❌ Failed | ${failed} |
+            | ⚠️ Errors | ${errors} |
+
+            ${grade >= 90 ? '🎉 Excellent work!' : grade >= 70 ? '👍 Good job!' : grade >= 50 ? '⚠️ Needs improvement' : '❌ Please review and fix the issues'}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+      - name: Create Grade Badge
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p .github/badges
+          GRADE="${{ steps.grade.outputs.grade }}"
+          if [ $GRADE -ge 90 ]; then
+            COLOR="brightgreen"
+          elif [ $GRADE -ge 70 ]; then
+            COLOR="green"
+          elif [ $GRADE -ge 50 ]; then
+            COLOR="yellow"
+          else
+            COLOR="red"
+          fi
+          echo "![Grade](https://img.shields.io/badge/Grade-${GRADE}%25-${COLOR})" > .github/badges/grade.md
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Maven Test Results
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: false
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: |
+            target/surefire-reports/
+            target/site/surefire-report.html
+          retention-days: 30
+      - name: Publish HTML Test Report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/site
+          destination_dir: test-reports
+          keep_files: false
+          enable_jekyll: false
