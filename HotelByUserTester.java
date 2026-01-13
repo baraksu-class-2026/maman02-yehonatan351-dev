@@ -2,7 +2,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class HotelTesterBy {
+public class HotelByUserTester {
 
     @Test
     public void test01() {
