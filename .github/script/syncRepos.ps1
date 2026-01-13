@@ -133,6 +133,26 @@ function Update-MyRepos {
 
         git fetch $originName main
 
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Failed to fetch from $originName" -ForegroundColor Red
+            continue
+        }
+
+        # Check GitHub Actions status
+        $workflowStatus = gh run list -R baraksu-class-2026/$clientRepo --limit 1 --json conclusion --jq '.[0].conclusion' 2>&1
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Failed to check workflow status for $clientRepo" -ForegroundColor Red
+            continue
+        }
+
+        if ($workflowStatus -ne "success") {
+            Write-Host "  Last workflow run for $clientRepo is not successful (status: $workflowStatus). Skipping." -ForegroundColor Yellow
+            continue
+        }
+
+        Write-Host "  Last workflow run passed. Proceeding..." -ForegroundColor Green
+
         foreach ($className in @("HotelUserTester", "HotelRoomUserTester")) {
 
             $newClassName = Get-UserClassName -className $className  -user $user
