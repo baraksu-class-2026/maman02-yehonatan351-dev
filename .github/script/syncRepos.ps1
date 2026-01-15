@@ -244,6 +244,8 @@ function Update-Secrets {
         [array]$users
     )
 
+    Set-Location $workingDir
+
     # API key value from environment variable
     $apiKey = $env:OPENAI_API_KEY
                 
