@@ -460,8 +460,8 @@ function Get-LastWorkingUsers {
 
 # Call the function
  #Update-Repos -unit $unit -users $users
-# Update-MyRepos -unit $unit -users $users
-#Update-Secrets -unit $unit -users $users
+Update-MyRepos -unit $unit -users $users
+Update-Secrets -unit $unit -users $users
 #Check-ReposDoesExist -unit $unit -users $users
 # Create-LocalTestrs -unit $unit -users $users
-Get-LastWorkingUsers -unit $unit -users $users -n 15
+#Get-LastWorkingUsers -unit $unit -users $users -n 15
