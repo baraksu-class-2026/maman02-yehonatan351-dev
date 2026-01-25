@@ -60,11 +60,19 @@ public class HotelRoom {
     }
 
     private boolean roomNumOk(int roomNum) {
-        return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
+        if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private boolean numBedsOk(int numBeds) {
-        return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
+        if (numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String toString() {
@@ -77,21 +85,45 @@ public class HotelRoom {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         HotelRoom other = (HotelRoom) obj;
-        return this._roomNum == other._roomNum && this._numBeds == other._numBeds;
+        if (_roomNum != other._roomNum) {
+            return false;
+        }
+        if (_numBeds != other._numBeds) {
+            return false;
+        }
+        return true;
     }
 
     public boolean before(HotelRoom other) {
-        if (other == null) return false;
-        return _roomNum < other._roomNum;
+        if (other == null) {
+            return false;
+        }
+        if (_roomNum < other._roomNum) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean after(HotelRoom other) {
-        if (other == null) return false;
-        return _roomNum > other._roomNum;
+        if (other == null) {
+            return false;
+        }
+        if (_roomNum > other._roomNum) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean checkIn(String guest) {
@@ -105,7 +137,9 @@ public class HotelRoom {
     }
 
     public void checkOut() {
-        _occupied = false;
-        _guest = "";
+        if (_occupied) {
+            _occupied = false;
+            _guest = "";
+        }
     }
 }
