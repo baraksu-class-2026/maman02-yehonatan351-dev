@@ -18,7 +18,7 @@ public class Hotel {
         System.out.print("Enter your choice: ");
 
         int choice = reader.nextInt();
-        reader.nextLine(); // צרוף קריאה ל-nextLine כדי לקרוא את השורה הנותרת
+        reader.nextLine(); 
 
         switch (choice) {
             case 1:
