@@ -57,45 +57,35 @@ public class Hotel {
     }
 
     public static void displaySorted(HotelRoom a, HotelRoom b, HotelRoom c) {
-        if (b.before(a)) {
-            swapRooms(a, b);
-        }
-        if (c.before(a)) {
-            swapRooms(a, c);
-        }
-        if (c.before(b)) {
-            swapRooms(b, c);
+        HotelRoom first = a;
+        HotelRoom second = b;
+        HotelRoom third = c;
+
+        if (b.before(first)) {
+            first = b;
+            second = a;
+            third = c;
         }
 
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
+        if (c.before(first)) {
+            first = c;
+            second = a;
+            third = b;
+        }
+
+        if (c.before(second)) {
+            HotelRoom temp = second;
+            second = c;
+            third = temp;
+        }
+
+        System.out.println(first);
+        System.out.println(second);
+        System.out.println(third);
     }
 
-    private static void swapRooms(HotelRoom r1, HotelRoom r2) {
-        final int tempRoomNum = r1.getRoomNum();
-        final int tempBeds = r1.getNumBeds();
-        final boolean tempOccupied = r1.isOccupied();
-        final String tempGuest = r1.getGuest();
-
-        r1.setRoomNum(r2.getRoomNum());
-        r1.setNumBeds(r2.getNumBeds());
-        if (r2.isOccupied()) {
-            r1.checkIn(r2.getGuest());
-        } else {
-            r1.checkOut();
-        }
-
-        r2.setRoomNum(tempRoomNum);
-        r2.setNumBeds(tempBeds);
-        if (tempOccupied) {
-            r2.checkIn(tempGuest);
-        } else {
-            r2.checkOut();
-        }
-    }
-
-    public static void checkIn(String guestName, int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
+    public static void checkIn(String guestName, int roomNum,
+                               HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
         if (chosen != null && !chosen.isOccupied()) {
             chosen.checkIn(guestName);
@@ -105,7 +95,8 @@ public class Hotel {
         }
     }
 
-    public static void checkOut(int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
+    public static void checkOut(int roomNum,
+                                HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
         if (chosen != null) {
             chosen.checkOut();
@@ -115,7 +106,8 @@ public class Hotel {
         }
     }
 
-    public static void findAvailableByBeds(int beds, HotelRoom a, HotelRoom b, HotelRoom c) {
+    public static void findAvailableByBeds(int beds,
+                                           HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = null;
 
         if (a.getNumBeds() == beds && !a.isOccupied()) {
@@ -133,7 +125,8 @@ public class Hotel {
         }
     }
 
-    public static HotelRoom findRoomByNumber(int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
+    public static HotelRoom findRoomByNumber(int roomNum,
+                                             HotelRoom a, HotelRoom b, HotelRoom c) {
         if (a.getRoomNum() == roomNum) {
             return a;
         } else if (b.getRoomNum() == roomNum) {
