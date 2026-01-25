@@ -5,7 +5,7 @@ public class HotelRoom {
     private boolean _occupied;
     private String _guest;
 
-    // קבועים (ברירות מחדל וגבולות)
+    // קבועים
     public static final int DEFAULT_ROOMNUM = 999;
     public static final int DEFAULT_NUMBEDS = 2;
     public static final boolean DEFAULT_OCCUPIED = false;
@@ -34,7 +34,7 @@ public class HotelRoom {
         _guest = DEFAULT_GUEST;
     }
 
-    // getters
+    // Getters
     public int getRoomNum() {
         return _roomNum;
     }
@@ -51,7 +51,7 @@ public class HotelRoom {
         return _guest;
     }
 
-    // setters
+    // Setters
     public void setRoomNum(int roomNum) {
         if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
@@ -64,7 +64,7 @@ public class HotelRoom {
         }
     }
 
-    // בדיקות חוקיות
+    // בדיקות פרטיות
     private boolean roomNumOk(int roomNum) {
         return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
     }
@@ -73,7 +73,7 @@ public class HotelRoom {
         return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
     }
 
-    // שיטות מחלקה
+    // הצגת חדר
     public String toString() {
         if (_occupied) {
             return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
@@ -82,6 +82,7 @@ public class HotelRoom {
         }
     }
 
+    // השוואת חדרים
     public boolean equals(HotelRoom other) {
         return _roomNum == other._roomNum && _numBeds == other._numBeds;
     }
@@ -94,6 +95,7 @@ public class HotelRoom {
         return other.before(this);
     }
 
+    // Check-in
     public boolean checkIn(String guest) {
         if (!_occupied) {
             _guest = guest;
@@ -104,6 +106,7 @@ public class HotelRoom {
         }
     }
 
+    // Check-out
     public void checkOut() {
         _occupied = false;
         _guest = "";
