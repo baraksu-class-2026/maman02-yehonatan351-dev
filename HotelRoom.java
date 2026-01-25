@@ -1,13 +1,11 @@
 public class HotelRoom {
-    // תכונות (שדות)
     private int _roomNum;
     private int _numBeds;
     private boolean _occupied;
     private String _guest;
 
-    // קבועים
-    public static final int DEFAULT_ROOMNUM = 999;
-    public static final int DEFAULT_NUMBEDS = 2;
+    public static final int DEFAULT_ROOM_NUM = 999;
+    public static final int DEFAULT_NUM_BEDS = 2;
     public static final boolean DEFAULT_OCCUPIED = false;
     public static final String DEFAULT_GUEST = "";
 
@@ -16,25 +14,23 @@ public class HotelRoom {
     public static final int MIN_NUMBEDS = 2;
     public static final int MAX_NUMBEDS = 4;
 
-    // בנאי
     public HotelRoom(int roomNum, int numBeds) {
         if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
         } else {
-            _roomNum = DEFAULT_ROOMNUM;
+            _roomNum = DEFAULT_ROOM_NUM;
         }
 
         if (numBedsOk(numBeds)) {
             _numBeds = numBeds;
         } else {
-            _numBeds = DEFAULT_NUMBEDS;
+            _numBeds = DEFAULT_NUM_BEDS;
         }
 
         _occupied = DEFAULT_OCCUPIED;
         _guest = DEFAULT_GUEST;
     }
 
-    // Getters
     public int getRoomNum() {
         return _roomNum;
     }
@@ -51,7 +47,6 @@ public class HotelRoom {
         return _guest;
     }
 
-    // Setters
     public void setRoomNum(int roomNum) {
         if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
@@ -64,7 +59,6 @@ public class HotelRoom {
         }
     }
 
-    // בדיקות פרטיות
     private boolean roomNumOk(int roomNum) {
         return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
     }
@@ -73,7 +67,6 @@ public class HotelRoom {
         return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
     }
 
-    // הצגת חדר
     public String toString() {
         if (_occupied) {
             return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
@@ -82,20 +75,25 @@ public class HotelRoom {
         }
     }
 
-    // השוואת חדרים
-    public boolean equals(HotelRoom other) {
-        return _roomNum == other._roomNum && _numBeds == other._numBeds;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        HotelRoom other = (HotelRoom) obj;
+        return this._roomNum == other._roomNum && this._numBeds == other._numBeds;
     }
 
     public boolean before(HotelRoom other) {
+        if (other == null) return false;
         return _roomNum < other._roomNum;
     }
 
     public boolean after(HotelRoom other) {
-        return other.before(this);
+        if (other == null) return false;
+        return _roomNum > other._roomNum;
     }
 
-    // Check-in
     public boolean checkIn(String guest) {
         if (!_occupied) {
             _guest = guest;
@@ -106,7 +104,6 @@ public class HotelRoom {
         }
     }
 
-    // Check-out
     public void checkOut() {
         _occupied = false;
         _guest = "";
