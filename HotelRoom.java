@@ -1,10 +1,11 @@
-public class HotelRoom 
-{
+public class HotelRoom {
+    // תכונות (שדות)
     private int _roomNum;
     private int _numBeds;
     private boolean _occupied;
     private String _guest;
 
+    // קבועים (ברירות מחדל וגבולות)
     public static final int DEFAULT_ROOMNUM = 999;
     public static final int DEFAULT_NUMBEDS = 2;
     public static final boolean DEFAULT_OCCUPIED = false;
@@ -15,23 +16,17 @@ public class HotelRoom
     public static final int MIN_NUMBEDS = 2;
     public static final int MAX_NUMBEDS = 4;
 
-    public HotelRoom(int roomNum, int numBeds) 
-    {
-        if (roomNumOk(roomNum)) 
-        {
+    // בנאי
+    public HotelRoom(int roomNum, int numBeds) {
+        if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
-        } 
-        else 
-        {
+        } else {
             _roomNum = DEFAULT_ROOMNUM;
         }
 
-        if (numBedsOk(numBeds)) 
-        {
+        if (numBedsOk(numBeds)) {
             _numBeds = numBeds;
-        } 
-        else 
-        {
+        } else {
             _numBeds = DEFAULT_NUMBEDS;
         }
 
@@ -39,77 +34,77 @@ public class HotelRoom
         _guest = DEFAULT_GUEST;
     }
 
-    public int getRoomNum() { return _roomNum; }
-    public int getNumBeds() { return _numBeds; }
-    public boolean isOccupied() { return _occupied; }
-    public String getGuest() { return _guest; }
+    // getters
+    public int getRoomNum() {
+        return _roomNum;
+    }
 
-    public void setRoomNum(int roomNum) 
-    {
-        if (roomNumOk(roomNum)) 
-        {
+    public int getNumBeds() {
+        return _numBeds;
+    }
+
+    public boolean isOccupied() {
+        return _occupied;
+    }
+
+    public String getGuest() {
+        return _guest;
+    }
+
+    // setters
+    public void setRoomNum(int roomNum) {
+        if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
         }
     }
 
-    public void setNumBeds(int numBeds) 
-    {
-        if (numBedsOk(numBeds)) 
-        {
+    public void setNumBeds(int numBeds) {
+        if (numBedsOk(numBeds)) {
             _numBeds = numBeds;
         }
     }
 
-    private boolean roomNumOk(int roomNum) 
-    {
+    // בדיקות חוקיות
+    private boolean roomNumOk(int roomNum) {
         return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
     }
 
-    private boolean numBedsOk(int numBeds) 
-    {
+    private boolean numBedsOk(int numBeds) {
         return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
     }
 
-    public String toString() 
-    {
-        if (_occupied) 
-        {
+    // שיטות מחלקה
+    public String toString() {
+        if (_occupied) {
             return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
-        } 
-        else 
-        {
+        } else {
             return "Room " + _roomNum + ", " + _numBeds + " Beds: Available";
         }
     }
 
-    public boolean equals(HotelRoom other) 
-    {
+    public boolean equals(HotelRoom other) {
         return _roomNum == other._roomNum && _numBeds == other._numBeds;
     }
 
-    public boolean before(HotelRoom other) 
-    {
+    public boolean before(HotelRoom other) {
         return _roomNum < other._roomNum;
     }
 
-    public boolean after(HotelRoom other) 
-    {
+    public boolean after(HotelRoom other) {
         return other.before(this);
     }
 
-    public boolean checkIn(String guest) 
-    {
-        if (!_occupied) 
-        {
+    public boolean checkIn(String guest) {
+        if (!_occupied) {
             _guest = guest;
             _occupied = true;
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
-    public void checkOut() 
-    {
+    public void checkOut() {
         _occupied = false;
         _guest = "";
     }
