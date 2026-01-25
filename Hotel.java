@@ -7,6 +7,7 @@ public class Hotel {
         final HotelRoom a = new HotelRoom(307, 4);
         final HotelRoom b = new HotelRoom(205, 3);
         final HotelRoom c = new HotelRoom(402, 2);
+
         b.checkIn("Guest Test");
 
         System.out.println("\nHotel Menu :");
@@ -14,9 +15,10 @@ public class Hotel {
         System.out.println("2 - Check-in to a room");
         System.out.println("3 - Check-out from a room");
         System.out.println("4 - Find available room by requested beds");
-        System.out.print("Enter your choice : ");
+        System.out.print("Enter your choice: ");
+
         int choice = reader.nextInt();
-        reader.nextLine(); // כדי לקרוא את השורה החדשה אחרי nextInt
+        reader.nextLine(); // צרוף קריאה ל-nextLine כדי לקרוא את השורה הנותרת
 
         switch (choice) {
             case 1:
@@ -25,17 +27,17 @@ public class Hotel {
 
             case 2:
                 System.out.print("Enter room number: ");
-                int roomNumIn = reader.nextInt();
-                reader.nextLine(); // קרא שורה חדשה
+                int roomNumCheckIn = reader.nextInt();
+                reader.nextLine();
                 System.out.print("Enter guest name: ");
                 String guestName = reader.nextLine();
-                checkIn(guestName, roomNumIn, a, b, c);
+                checkIn(guestName, roomNumCheckIn, a, b, c);
                 break;
 
             case 3:
                 System.out.print("Enter room number: ");
-                int roomNumOut = reader.nextInt();
-                checkOut(roomNumOut, a, b, c);
+                int roomNumCheckOut = reader.nextInt();
+                checkOut(roomNumCheckOut, a, b, c);
                 break;
 
             case 4:
@@ -46,8 +48,9 @@ public class Hotel {
 
             default:
                 System.out.println("Error: Invalid menu choice");
-                break;
         }
+
+        reader.close();
     }
 
     public static void displaySorted(HotelRoom a, HotelRoom b, HotelRoom c) {
@@ -62,9 +65,10 @@ public class Hotel {
         if (c.before(a)) {
             temp = a;
             a = c;
-            c = b;
-            b = temp;
-        } else if (c.before(b)) {
+            c = temp;
+        }
+
+        if (c.before(b)) {
             temp = b;
             b = c;
             c = temp;
@@ -78,7 +82,9 @@ public class Hotel {
     public static void checkIn(String guestName, int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
 
-        if (chosen == null || chosen.isOccupied()) {
+        if (chosen == null) {
+            System.out.println("Error: Room not available or not found");
+        } else if (chosen.isOccupied()) {
             System.out.println("Error: Room not available or not found");
         } else {
             chosen.checkIn(guestName);
@@ -108,10 +114,10 @@ public class Hotel {
             chosen = c;
         }
 
-        if (chosen == null) {
-            System.out.println("No available room with the requested number of beds");
-        } else {
+        if (chosen != null) {
             System.out.println(chosen);
+        } else {
+            System.out.println("No available room with the requested number of beds");
         }
     }
 
@@ -122,7 +128,8 @@ public class Hotel {
             return b;
         } else if (c.getRoomNum() == roomNum) {
             return c;
+        } else {
+            return null;
         }
-        return null;
     }
 }
