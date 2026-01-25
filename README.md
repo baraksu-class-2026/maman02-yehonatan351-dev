@@ -1,23 +1,15 @@
 ## Grade
 
-[![Grade](https://img.shields.io/badge/Grade-88%25-green)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21339827578) *(Original: 98%, Penalties: -10)*
+[![Grade](https://img.shields.io/badge/Grade-97%25-brightgreen)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21339836636)
 
 ## Tests
 
-[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21339827578)
+[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21339836636)
 
 ## AI Code Review
 
-### File: `Hotel.java`
+✅ **Code Quality: Excellent!**
 
-#### ❌ **Duplicate Code** (-10 points)
-- **Methods involved**: `checkIn(int, HotelRoom, HotelRoom, HotelRoom)` and `checkOut(int, HotelRoom, HotelRoom, HotelRoom)` both use `findRoomByNumber` and similar logic to check if a room is available. This logic should be refactored so that the room search and availability check do not repeat in each method.
-  
-#### ❌ **Syntax and Readability Issues** (-5 points)
-- The `System.out.println("Hotel Menu :");` has an incorrect newline that affects the readability of the menu in the console output. This newline should be corrected.
+The code in both `Hotel.java` and `HotelRoom.java` files appears well-organized, readable, and free of any critical issues regarding functionality, duplicate logic, or magic numbers beyond the scope allowed for testing. All control structures use braces correctly, and there is appropriate use of named constants to avoid magic numbers. The overall logic flow is clear and easy to follow, making it suitable for a high school assignment. 
 
-### File: `HotelRoom.java`
-
-No issues found in this file. All validations, constants, and logical structures are appropriately handled according to the given rules.
-
-### Recommended Adjusted Grade: 85%
+Keep up the good work! Recommended adjusted grade: 100%
