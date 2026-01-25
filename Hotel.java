@@ -61,22 +61,22 @@ public class Hotel {
         HotelRoom second = b;
         HotelRoom third = c;
 
-        if (b.before(first)) {
-            first = b;
-            second = a;
-            third = c;
+        if (second.before(first)) {
+            HotelRoom temp = first;
+            first = second;
+            second = temp;
         }
 
-        if (c.before(first)) {
-            first = c;
-            second = a;
-            third = b;
-        }
-
-        if (c.before(second)) {
+        if (third.before(second)) {
             HotelRoom temp = second;
-            second = c;
+            second = third;
             third = temp;
+        }
+
+        if (second.before(first)) {
+            HotelRoom temp = first;
+            first = second;
+            second = temp;
         }
 
         System.out.println(first);
