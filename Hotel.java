@@ -1,12 +1,13 @@
 import java.util.Scanner;
 
 public class Hotel {
-    public static void main(String[] args) {
-        final Scanner reader = new Scanner(System.in);
 
-        final HotelRoom a = new HotelRoom(307, 4);
-        final HotelRoom b = new HotelRoom(205, 3);
-        final HotelRoom c = new HotelRoom(402, 2);
+    public static void main(String[] args) {
+        Scanner reader = new Scanner(System.in);
+
+        HotelRoom a = new HotelRoom(307, 4);
+        HotelRoom b = new HotelRoom(205, 3);
+        HotelRoom c = new HotelRoom(402, 2);
 
         b.checkIn("Guest Test");
 
@@ -18,7 +19,7 @@ public class Hotel {
         System.out.print("Enter your choice: ");
 
         int choice = reader.nextInt();
-        reader.nextLine(); 
+        reader.nextLine(); // לוקח את השורה הנותרת
 
         switch (choice) {
             case 1:
@@ -54,82 +55,68 @@ public class Hotel {
     }
 
     public static void displaySorted(HotelRoom a, HotelRoom b, HotelRoom c) {
-        HotelRoom temp;
-
-        if (b.before(a)) {
-            temp = a;
-            a = b;
-            b = temp;
-        }
-
-        if (c.before(a)) {
-            temp = a;
-            a = c;
-            c = temp;
-        }
-
-        if (c.before(b)) {
-            temp = b;
-            b = c;
-            c = temp;
-        }
+        if (b.before(a)) swapRooms(a, b);
+        if (c.before(a)) swapRooms(a, c);
+        if (c.before(b)) swapRooms(b, c);
 
         System.out.println(a);
         System.out.println(b);
         System.out.println(c);
     }
 
+    private static void swapRooms(HotelRoom r1, HotelRoom r2) {
+        int tempRoomNum = r1.getRoomNum();
+        int tempBeds = r1.getNumBeds();
+        boolean tempOccupied = r1.isOccupied();
+        String tempGuest = r1.getGuest();
+
+        // מחליפים את r1
+        r1.setRoomNum(r2.getRoomNum());
+        r1.setNumBeds(r2.getNumBeds());
+        if (r2.isOccupied()) r1.checkIn(r2.getGuest());
+        else r1.checkOut();
+
+        // מחליפים את r2
+        r2.setRoomNum(tempRoomNum);
+        r2.setNumBeds(tempBeds);
+        if (tempOccupied) r2.checkIn(tempGuest);
+        else r2.checkOut();
+    }
+
     public static void checkIn(String guestName, int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
-
-        if (chosen == null) {
-            System.out.println("Error: Room not available or not found");
-        } else if (chosen.isOccupied()) {
-            System.out.println("Error: Room not available or not found");
-        } else {
+        if (chosen != null && !chosen.isOccupied()) {
             chosen.checkIn(guestName);
             System.out.println(chosen);
+        } else {
+            System.out.println("Error: Room not available or not found");
         }
     }
 
     public static void checkOut(int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
-
-        if (chosen == null) {
-            System.out.println("Error: Room not available or not found");
-        } else {
+        if (chosen != null) {
             chosen.checkOut();
             System.out.println(chosen);
+        } else {
+            System.out.println("Error: Room not available or not found");
         }
     }
 
     public static void findAvailableByBeds(int beds, HotelRoom a, HotelRoom b, HotelRoom c) {
         HotelRoom chosen = null;
+        if (a.getNumBeds() == beds && !a.isOccupied()) chosen = a;
+        else if (b.getNumBeds() == beds && !b.isOccupied()) chosen = b;
+        else if (c.getNumBeds() == beds && !c.isOccupied()) chosen = c;
 
-        if (a.getNumBeds() == beds && !a.isOccupied()) {
-            chosen = a;
-        } else if (b.getNumBeds() == beds && !b.isOccupied()) {
-            chosen = b;
-        } else if (c.getNumBeds() == beds && !c.isOccupied()) {
-            chosen = c;
-        }
-
-        if (chosen != null) {
-            System.out.println(chosen);
-        } else {
-            System.out.println("No available room with the requested number of beds");
-        }
+        if (chosen != null) System.out.println(chosen);
+        else System.out.println("No available room with the requested number of beds");
     }
 
     public static HotelRoom findRoomByNumber(int roomNum, HotelRoom a, HotelRoom b, HotelRoom c) {
-        if (a.getRoomNum() == roomNum) {
-            return a;
-        } else if (b.getRoomNum() == roomNum) {
-            return b;
-        } else if (c.getRoomNum() == roomNum) {
-            return c;
-        } else {
-            return null;
-        }
+        if (a.getRoomNum() == roomNum) return a;
+        if (b.getRoomNum() == roomNum) return b;
+        if (c.getRoomNum() == roomNum) return c;
+        return null;
     }
 }
