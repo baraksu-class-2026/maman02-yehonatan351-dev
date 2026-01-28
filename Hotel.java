@@ -42,7 +42,9 @@ public class Hotel {
                 break;
             }
             case 4: {
-                System.out.print("Enter requested number of beds (2-4): ");
+                System.out.print("Enter requested number of beds ("
+                        + HotelRoom.MIN_NUMBEDS
+                        + "-" + HotelRoom.MAX_NUMBEDS + "): ");
                 int numBeds = reader.nextInt();
                 findAvailableByBeds(numBeds, a, b, c);
                 break;
@@ -79,9 +81,7 @@ public class Hotel {
             second = temp;
         }
 
-        System.out.println(first);
-        System.out.println(second);
-        System.out.println(third);
+        display(first, second, third);
     }
 
     public static void checkIn(String guestName, int roomNum,
