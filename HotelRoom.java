@@ -51,12 +51,16 @@ public class HotelRoom {
     public void setRoomNum(int roomNum) {
         if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
+        } else {
+            _roomNum = DEFAULT_ROOM_NUM;
         }
     }
 
     public void setNumBeds(int numBeds) {
         if (numBedsOk(numBeds)) {
             _numBeds = numBeds;
+        } else {
+            _numBeds = DEFAULT_NUM_BEDS;
         }
     }
 
