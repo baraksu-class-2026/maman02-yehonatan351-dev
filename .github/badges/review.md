@@ -2,10 +2,10 @@
 
 ✅ **Code Quality: Excellent!**
 
-Both the `Hotel` and `HotelRoom` classes are well-structured, with clear logic flow and proper use of constants to avoid magic numbers outside the `main()` method. All required braces are in place for control structures, enhancing readability and preventing logical errors.
+The code is well-structured and readable. However, there are a couple of small points to note:
 
-### Observations:
-- **Hotel.java**: The program uses constants from `HotelRoom`, which keeps it free of magic numbers outside the `main()` method. Method logic is clear and well-organized.
-- **HotelRoom.java**: All validation logic for room number and bed count is encapsulated in helper methods, reducing duplication effectively. String constants are properly used for default values.
+- ❌ **Duplicate Code** (-10 points): The logic for checking room availability by room number is duplicated in the `checkIn`, `checkOut`, and `findAvailableByBeds` methods. Consider extracting this shared logic into a separate method to reduce duplication and enhance maintainability.
 
-No duplicates or significant issues requiring changes were found in the provided files. Keep up the great work maintaining readability and logical organization!
+- Overall, great effort on using constants instead of magic numbers. The program flow is logical, and the use of braces and indentation is appropriate.
+
+Recommended adjusted grade: 90%
