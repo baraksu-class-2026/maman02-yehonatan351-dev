@@ -1,14 +1,13 @@
 ## AI Code Review
 
-✅ **Code Quality: Excellent!** 
+✅ **Code Quality: Excellent!**
 
-You've done a great job keeping the code organized and readable, and leveraging constants to avoid magic numbers in the `HotelRoom` class. The logic flows well, and the usage of braces around all control structures is consistent.
+The provided Java files are well-structured, readable, and logically organized. The code adheres to the specified guidelines, with a few areas where improvements can enhance clarity and maintainability:
 
-There are a couple of points to consider regarding potential code improvements:
+❌ **Duplicate Code** (-10 points)
 
-- **Duplicate Code in `Hotel`:** Several methods utilize similar segments of code to iterate over the `HotelRoom` objects, such as comparing attributes or performing operations like checking in/out. Consider refactoring these methods to reduce duplication by encapsulating shared logic within helper methods.
+- The methods `checkIn` and `checkOut` in the `Hotel` class both perform similar logic to find a room by its number. The logic to determine which room object corresponds to the input room number is identical in both methods. Consider extracting the shared logic into a separate method or utilize `findRoomByNumber` to reduce duplication.
 
-- **Method Similarity:**
-  - Methods like `checkIn()`, `checkOut()`, and `findAvailableByBeds()` have similar patterns involving checking room conditions or updating room status. Identifying these patterns and abstracting repetitive logic into smaller, reusable methods can enhance maintainability.
+- In the `HotelRoom` class, the validation logic for checking room number and number of beds (`roomNumOk` and `numBedsOk`) is repeated in both the constructors and setters. While this can sometimes be necessary, streamlining by centralizing validation logic could improve maintainability.
 
-- Remember, the details of refactoring are part of good practices to reduce redundancy. Keep up the great work and continue to look for opportunities to streamline your code!
+Overall, great job on following the indentation and brace usage rules, and avoiding magic numbers outside of the main method. Keep up the good work, and with these minor adjustments, your code will be even more efficient and simpler to maintain. Recommended adjusted grade: 90% (-10 points for duplicate code)
