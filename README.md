@@ -1,25 +1,15 @@
 ## Grade
 
-[![Grade](https://img.shields.io/badge/Grade-0%25-red)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441472189)
-
-## Coding Standards
-
-❌ **Coding Standard Failed (-25 points)** - [View Checkstyle Report](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441472189)
+[![Grade](https://img.shields.io/badge/Grade-90%25-brightgreen)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441651950) *(Original: 100%, Penalties: -10)*
 
 ## Tests
 
-[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441472189)
+[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441651950)
 
 ## AI Code Review
 
-✅ **Code Quality: Excellent!**
+✅ **Code Quality: Excellent!** Your code is well-organized, and the logic flows smoothly. It adheres to the given standards for using braces and managing logic within the `Hotel` and `HotelRoom` classes. Additionally, there are no issues with magic numbers as they are correctly replaced by named constants outside the `main()` method.
 
-Both `Hotel` and `HotelRoom` classes are well-written, clear, and follow the provided rules effectively. However, there are a couple of minor points that need to be addressed:
+❌ **Duplicate Code** (-10 points): There is duplicate code in the `HotelRoom` class. The validation logic for room numbers and bed counts is identical in both the constructor and the respective setter methods (`setRoomNum` and `setNumBeds`). You should refactor this logic into a separate method to avoid duplication and ensure the code is easier to maintain and modify if needed. This method would allow both the constructor and setter methods to share the same validation logic, reducing redundancy. 
 
-- ❌ **Magic Numbers** (-5 points): The number "999" used in the `HotelRoom` class might be considered a magic number, as it is the default value for `_roomNum`. Consider ensuring all numbers like this are from defined constants, though it appears to tie in with other constants nicely. Please verify if all numbers are intended to be constants.
-
-- The sorting logic in `displaySorted` uses a clearer bubble-sort style that is easy to understand, and considering the small fixed size of the arrays, it's an efficient choice.
-
-- Ensure closed `Scanner` in main (if required by your teacher).
-
-Recommended adjusted grade: 95%
+Recommended adjusted grade: 90%
