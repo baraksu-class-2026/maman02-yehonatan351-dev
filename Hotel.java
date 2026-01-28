@@ -11,7 +11,10 @@ public class Hotel {
 
         b.checkIn("Guest Test");
 
-        System.out.println("\nHotel Menu :");
+        System.out.println("Hotel rooms:");
+        display(a, b, c);
+
+        System.out.println("Hotel Menu:");
         System.out.println("1 - Display rooms by room number (ascending)");
         System.out.println("2 - Check-in to a room");
         System.out.println("3 - Check-out from a room");
@@ -22,11 +25,10 @@ public class Hotel {
         reader.nextLine();
 
         switch (choice) {
-            case 1: {
+            case 1:
                 displaySorted(a, b, c);
                 break;
-            }
-            case 2: {
+            case 2:
                 System.out.print("Enter room number: ");
                 int roomNumCheckIn = reader.nextInt();
                 reader.nextLine();
@@ -34,23 +36,19 @@ public class Hotel {
                 String guestName = reader.nextLine();
                 checkIn(guestName, roomNumCheckIn, a, b, c);
                 break;
-            }
-            case 3: {
+            case 3:
                 System.out.print("Enter room number: ");
                 int roomNumCheckOut = reader.nextInt();
                 checkOut(roomNumCheckOut, a, b, c);
                 break;
-            }
-            case 4: {
+            case 4:
                 System.out.print("Enter requested number of beds (2-4): ");
                 int numBeds = reader.nextInt();
                 findAvailableByBeds(numBeds, a, b, c);
                 break;
-            }
-            default: {
+            default:
                 System.out.println("Error: Invalid menu choice");
                 break;
-            }
         }
 
         reader.close();
@@ -61,24 +59,24 @@ public class Hotel {
         HotelRoom second = b;
         HotelRoom third = c;
 
+        // מיון לפי מספר חדרים בעזרת before()
         if (second.before(first)) {
             HotelRoom temp = first;
             first = second;
             second = temp;
         }
-
         if (third.before(second)) {
             HotelRoom temp = second;
             second = third;
             third = temp;
         }
-
         if (second.before(first)) {
             HotelRoom temp = first;
             first = second;
             second = temp;
         }
 
+        System.out.println("Hotel Rooms by room number:");
         System.out.println(first);
         System.out.println(second);
         System.out.println(third);
