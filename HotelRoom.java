@@ -16,24 +16,10 @@ public class HotelRoom {
     public static final int MAX_NUMBEDS = 4;
 
     public HotelRoom(int roomNum, int numBeds) {
-        _roomNum = validateRoomNum(roomNum);
-        _numBeds = validateNumBeds(numBeds);
+        _roomNum = roomNumOk(roomNum) ? roomNum : DEFAULT_ROOM_NUM;
+        _numBeds = numBedsOk(numBeds) ? numBeds : DEFAULT_NUM_BEDS;
         _occupied = DEFAULT_OCCUPIED;
         _guest = DEFAULT_GUEST;
-    }
-
-    private int validateRoomNum(int roomNum) {
-        if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
-            return roomNum;
-        }
-        return DEFAULT_ROOM_NUM;
-    }
-
-    private int validateNumBeds(int numBeds) {
-        if (numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS) {
-            return numBeds;
-        }
-        return DEFAULT_NUM_BEDS;
     }
 
     public int getRoomNum() {
@@ -53,19 +39,34 @@ public class HotelRoom {
     }
 
     public void setRoomNum(int roomNum) {
-        _roomNum = validateRoomNum(roomNum);
+        if (roomNumOk(roomNum)) {
+            _roomNum = roomNum;
+        }
     }
 
     public void setNumBeds(int numBeds) {
-        _numBeds = validateNumBeds(numBeds);
+        if (numBedsOk(numBeds)) {
+            _numBeds = numBeds;
+        }
+    }
+
+    private boolean roomNumOk(int roomNum) {
+        return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
+    }
+
+    private boolean numBedsOk(int numBeds) {
+        return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
     }
 
     @Override
     public String toString() {
         if (_occupied) {
-            return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
+            return "Room " + _roomNum + ", " + _numBeds
+                    + " Beds: Occupied by " + _guest;
+        } else {
+            return "Room " + _roomNum + ", " + _numBeds
+                    + " Beds: Available";
         }
-        return "Room " + _roomNum + ", " + _numBeds + " Beds: Available";
     }
 
     public boolean equals(HotelRoom other) {
