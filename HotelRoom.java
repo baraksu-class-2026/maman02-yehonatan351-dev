@@ -8,7 +8,7 @@ public class HotelRoom {
     private boolean _occupied;
     private String _guest;
 
-    // Constants for validation
+    // Constants
     private static final int MIN_ROOM = 100;
     private static final int MAX_ROOM = 999;
     private static final int DEFAULT_ROOM = 999;
@@ -18,13 +18,31 @@ public class HotelRoom {
 
     /**
      * Constructor for HotelRoom.
-     * Uses setter methods to avoid duplicate validation logic.
      */
     public HotelRoom(int roomNum, int numBeds) {
         setRoomNum(roomNum);
         setNumBeds(numBeds);
         _occupied = false;
         _guest = "";
+    }
+
+    /**
+     * Helper method to validate ranges and avoid duplicate code.
+     */
+    private int validateRange(int value, int min, int max, int defaultValue) {
+        if (value >= min && value <= max) {
+            return value;
+        }
+        return defaultValue;
+    }
+
+    // Setters - using the helper method to eliminate duplication
+    public void setRoomNum(int roomNum) {
+        _roomNum = validateRange(roomNum, MIN_ROOM, MAX_ROOM, DEFAULT_ROOM);
+    }
+
+    public void setNumBeds(int numBeds) {
+        _numBeds = validateRange(numBeds, MIN_BEDS, MAX_BEDS, DEFAULT_BEDS);
     }
 
     // Getters
@@ -42,28 +60,6 @@ public class HotelRoom {
 
     public String getGuest() {
         return _guest;
-    }
-
-    /**
-     * Sets the room number with validation.
-     */
-    public void setRoomNum(int roomNum) {
-        if (roomNum >= MIN_ROOM && roomNum <= MAX_ROOM) {
-            _roomNum = roomNum;
-        } else {
-            _roomNum = DEFAULT_ROOM;
-        }
-    }
-
-    /**
-     * Sets the number of beds with validation.
-     */
-    public void setNumBeds(int numBeds) {
-        if (numBeds >= MIN_BEDS && numBeds <= MAX_BEDS) {
-            _numBeds = numBeds;
-        } else {
-            _numBeds = DEFAULT_BEDS;
-        }
     }
 
     /**
@@ -94,9 +90,6 @@ public class HotelRoom {
         return _roomNum > other.getRoomNum();
     }
 
-    /**
-     * Compares two rooms based on room number and beds.
-     */
     public boolean equals(HotelRoom other) {
         if (other == null) {
             return false;
