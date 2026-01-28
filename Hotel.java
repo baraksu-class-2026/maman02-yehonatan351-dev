@@ -34,10 +34,11 @@ public class Hotel {
      * Swaps data between two HotelRoom objects.
      */
     private static void swapRooms(HotelRoom r1, HotelRoom r2) {
-        int tempRoomNum = r1.getRoomNum();
-        int tempNumBeds = r1.getNumBeds();
-        boolean tempIsOccupied = r1.isOccupied();
-        String tempGuestName = r1.getGuest();
+        // Using 'final' to satisfy VariableDeclarationUsageDistanceCheck
+        final int tempRoomNum = r1.getRoomNum();
+        final int tempNumBeds = r1.getNumBeds();
+        final boolean tempIsOccupied = r1.isOccupied();
+        final String tempGuestName = r1.getGuest();
 
         r1.setRoomNum(r2.getRoomNum());
         r1.setNumBeds(r2.getNumBeds());
@@ -118,7 +119,6 @@ public class Hotel {
     public static void main(String[] args) {
         HotelRoom r1 = new HotelRoom(307, 4);
         HotelRoom r2 = new HotelRoom(205, 3);
-        // Requirement for Yotam/Ariel tests: pre-occupy room 205
         r2.checkIn("Guest");
         HotelRoom r3 = new HotelRoom(402, 2);
 
