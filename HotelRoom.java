@@ -16,8 +16,8 @@ public class HotelRoom {
     public static final int MAX_NUMBEDS = 4;
 
     public HotelRoom(int roomNum, int numBeds) {
-        _roomNum = roomNumOk(roomNum) ? roomNum : DEFAULT_ROOM_NUM;
-        _numBeds = numBedsOk(numBeds) ? numBeds : DEFAULT_NUM_BEDS;
+        setRoomNum(roomNum);
+        setNumBeds(numBeds);
         _occupied = DEFAULT_OCCUPIED;
         _guest = DEFAULT_GUEST;
     }
@@ -41,12 +41,16 @@ public class HotelRoom {
     public void setRoomNum(int roomNum) {
         if (roomNumOk(roomNum)) {
             _roomNum = roomNum;
+        } else {
+            _roomNum = DEFAULT_ROOM_NUM;
         }
     }
 
     public void setNumBeds(int numBeds) {
         if (numBedsOk(numBeds)) {
             _numBeds = numBeds;
+        } else {
+            _numBeds = DEFAULT_NUM_BEDS;
         }
     }
 
@@ -61,10 +65,12 @@ public class HotelRoom {
     @Override
     public String toString() {
         if (_occupied) {
-            return "Room " + _roomNum + ", " + _numBeds
+            return "Room " + _roomNum
+                    + ", " + _numBeds
                     + " Beds: Occupied by " + _guest;
         } else {
-            return "Room " + _roomNum + ", " + _numBeds
+            return "Room " + _roomNum
+                    + ", " + _numBeds
                     + " Beds: Available";
         }
     }
