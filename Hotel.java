@@ -10,26 +10,13 @@ public class Hotel {
     }
 
     public static void displaySorted(HotelRoom a, HotelRoom b, HotelRoom c) {
-        HotelRoom first = a;
-        HotelRoom second = b;
-        HotelRoom third = c;
+        HotelRoom first = a, second = b, third = c;
+        HotelRoom temp;
 
-        // Bubble-sort style swaps for 3 elements
-        if (second.before(first)) {
-            HotelRoom temp = first;
-            first = second;
-            second = temp;
-        }
-        if (third.before(second)) {
-            HotelRoom temp = second;
-            second = third;
-            third = temp;
-        }
-        if (second.before(first)) {
-            HotelRoom temp = first;
-            first = second;
-            second = temp;
-        }
+        // מיון בועות ל-3 חדרים לפי מספר חדר עולה
+        if (second.before(first)) { temp = first; first = second; second = temp; }
+        if (third.before(second)) { temp = second; second = third; third = temp; }
+        if (second.before(first)) { temp = first; first = second; second = temp; }
 
         display(first, second, third);
     }
@@ -58,7 +45,7 @@ public class Hotel {
     // ------------------- Check-Out -------------------
     public static void checkOut(int roomNum, HotelRoom... rooms) {
         HotelRoom room = findRoomByNumber(roomNum, rooms);
-        if (room != null) {
+        if (room != null && room.isOccupied()) { // וידוא שהחדר אכן תפוס לפני צ'ק-אאוט
             room.checkOut();
             System.out.println(room);
         } else {
@@ -68,11 +55,6 @@ public class Hotel {
 
     // ------------------- Find Available By Beds -------------------
     public static void findAvailableByBeds(int numBeds, HotelRoom... rooms) {
-        if (numBeds < HotelRoom.MIN_NUMBEDS || numBeds > HotelRoom.MAX_NUMBEDS) {
-            System.out.println("No available room with the requested number of beds");
-            return;
-        }
-
         boolean found = false;
         for (HotelRoom room : rooms) {
             if (!room.isOccupied() && room.getNumBeds() == numBeds) {
@@ -87,51 +69,54 @@ public class Hotel {
 
     // ------------------- Main -------------------
     public static void main(String[] args) {
-        HotelRoom roomA = new HotelRoom(307, 4);
-        HotelRoom roomB = new HotelRoom(205, 3);
-        HotelRoom roomC = new HotelRoom(402, 2);
+        HotelRoom room1 = new HotelRoom(307, 4);
+        HotelRoom room2 = new HotelRoom(205, 3);
+        HotelRoom room3 = new HotelRoom(402, 2);
 
-        final Scanner scanner = new Scanner(System.in);
+        // שימוש ב-Scanner בתוך try-with-resources לסגירה אוטומטית
+        try (Scanner scanner = new Scanner(System.in)) {
+            
+            System.out.println("Hotel Rooms:");
+            display(room1, room2, room3);
 
-        System.out.println("Hotel Rooms:");
-        display(roomA, roomB, roomC);
+            System.out.println("\nHotel Menu:");
+            System.out.println("1 - Display rooms by room number (ascending)");
+            System.out.println("2 - Check-in");
+            System.out.println("3 - Check-out");
+            System.out.println("4 - Find room by number of beds");
 
-        System.out.println("\nHotel Menu:");
-        System.out.println("1 - Display rooms by room number (ascending)");
-        System.out.println("2 - Check-in");
-        System.out.println("3 - Check-out");
-        System.out.println("4 - Find room by number of beds");
+            System.out.print("Enter your choice: ");
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // ניקוי ה-Buffer
 
-        System.out.print("Enter your choice: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-
-        switch (choice) {
-            case 1:
-                displaySorted(roomA, roomB, roomC);
-                break;
-            case 2:
-                System.out.print("Enter room number: ");
-                int roomNum = scanner.nextInt();
-                scanner.nextLine();
-                System.out.print("Enter guest name: ");
-                String guest = scanner.nextLine();
-                checkIn(guest, roomNum, roomA, roomB, roomC);
-                break;
-            case 3:
-                System.out.print("Enter room number: ");
-                int outNum = scanner.nextInt();
-                checkOut(outNum, roomA, roomB, roomC);
-                break;
-            case 4:
-                System.out.print("Enter requested number of beds ("
-                        + HotelRoom.MIN_NUMBEDS + "-" + HotelRoom.MAX_NUMBEDS + "): ");
-                int beds = scanner.nextInt();
-                findAvailableByBeds(beds, roomA, roomB, roomC);
-                break;
-            default:
-                System.out.println("Error: Invalid menu choice");
-                break;
-        }
+                switch (choice) {
+                    case 1:
+                        displaySorted(room1, room2, room3);
+                        break;
+                    case 2:
+                        System.out.print("Enter room number: ");
+                        int roomNum = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter guest name: ");
+                        String guest = scanner.nextLine();
+                        checkIn(guest, roomNum, room1, room2, room3);
+                        break;
+                    case 3:
+                        System.out.print("Enter room number: ");
+                        int outNum = scanner.nextInt();
+                        checkOut(outNum, room1, room2, room3);
+                        break;
+                    case 4:
+                        System.out.print("Enter requested number of beds: ");
+                        int beds = scanner.nextInt();
+                        findAvailableByBeds(beds, room1, room2, room3);
+                        break;
+                    default:
+                        System.out.println("Error: Invalid menu choice");
+                        break;
+                }
+            }
+        } // כאן ה-Scanner נסגר אוטומטית
     }
 }
