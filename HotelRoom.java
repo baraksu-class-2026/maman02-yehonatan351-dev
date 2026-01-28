@@ -1,9 +1,9 @@
 public class HotelRoom {
 
-    private int roomNum;
-    private int numBeds;
-    private boolean occupied;
-    private String guest;
+    private int _roomNum;
+    private int _numBeds;
+    private boolean _occupied;
+    private String _guest;
 
     public static final int DEFAULT_ROOM_NUM = 999;
     public static final int DEFAULT_NUM_BEDS = 2;
@@ -17,36 +17,36 @@ public class HotelRoom {
 
     // ---------------- Constructor ----------------
     public HotelRoom(int roomNum, int numBeds) {
-        this.roomNum = validateRoomNum(roomNum);
-        this.numBeds = validateNumBeds(numBeds);
-        this.occupied = DEFAULT_OCCUPIED;
-        this.guest = DEFAULT_GUEST;
+        _roomNum = validateRoomNum(roomNum);
+        _numBeds = validateNumBeds(numBeds);
+        _occupied = DEFAULT_OCCUPIED;
+        _guest = DEFAULT_GUEST;
     }
 
     // ---------------- Getters ----------------
     public int getRoomNum() {
-        return roomNum;
+        return _roomNum;
     }
 
     public int getNumBeds() {
-        return numBeds;
+        return _numBeds;
     }
 
     public boolean isOccupied() {
-        return occupied;
+        return _occupied;
     }
 
     public String getGuest() {
-        return guest;
+        return _guest;
     }
 
     // ---------------- Setters ----------------
     public void setRoomNum(int roomNum) {
-        this.roomNum = validateRoomNum(roomNum);
+        _roomNum = validateRoomNum(roomNum);
     }
 
     public void setNumBeds(int numBeds) {
-        this.numBeds = validateNumBeds(numBeds);
+        _numBeds = validateNumBeds(numBeds);
     }
 
     // ---------------- Validation ----------------
@@ -68,9 +68,9 @@ public class HotelRoom {
 
     // ---------------- Room status ----------------
     public boolean checkIn(String guest) {
-        if (!occupied) {
-            this.guest = guest;
-            this.occupied = true;
+        if (!_occupied) {
+            _guest = guest;
+            _occupied = true;
             return true;
         } else {
             return false;
@@ -78,17 +78,19 @@ public class HotelRoom {
     }
 
     public void checkOut() {
-        this.guest = "";
-        this.occupied = false;
+        _guest = "";
+        _occupied = false;
     }
 
     // ---------------- Utility ----------------
     @Override
     public String toString() {
-        if (occupied) {
-            return "Room " + roomNum + ", " + numBeds + " Beds: Occupied by " + guest;
+        if (_occupied) {
+            return "Room " + _roomNum + ", " + _numBeds
+                    + " Beds: Occupied by " + _guest;
         } else {
-            return "Room " + roomNum + ", " + numBeds + " Beds: Available";
+            return "Room " + _roomNum + ", " + _numBeds
+                    + " Beds: Available";
         }
     }
 
@@ -96,11 +98,11 @@ public class HotelRoom {
         if (other == null) {
             return false;
         }
-        return this.roomNum == other.roomNum && this.numBeds == other.numBeds;
+        return _roomNum == other._roomNum && _numBeds == other._numBeds;
     }
 
     public boolean before(HotelRoom other) {
-        return this.roomNum < other.roomNum;
+        return _roomNum < other._roomNum;
     }
 
     public boolean after(HotelRoom other) {
