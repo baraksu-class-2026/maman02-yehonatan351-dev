@@ -34,7 +34,6 @@ public class Hotel {
      * Swaps data between two HotelRoom objects.
      */
     private static void swapRooms(HotelRoom r1, HotelRoom r2) {
-        // Using 'final' to satisfy VariableDeclarationUsageDistanceCheck
         final int tempRoomNum = r1.getRoomNum();
         final int tempNumBeds = r1.getNumBeds();
         final boolean tempIsOccupied = r1.isOccupied();
@@ -72,11 +71,25 @@ public class Hotel {
     }
 
     /**
+     * Helper method to reduce duplication in checkIn/checkOut.
+     * Verifies if a room exists and matches the required occupancy status.
+     */
+    private static HotelRoom getValidatedRoom(int roomNum, boolean shouldBeOccupied, 
+                                             HotelRoom... rooms) {
+        HotelRoom room = findRoomByNumber(roomNum, rooms);
+        if (room != null && room.isOccupied() == shouldBeOccupied) {
+            return room;
+        }
+        return null;
+    }
+
+    /**
      * Checks a guest into a room.
      */
     public static void checkIn(String guest, int roomNum, HotelRoom... rooms) {
-        HotelRoom room = findRoomByNumber(roomNum, rooms);
-        if (room != null && !room.isOccupied()) {
+        // We want a room that is NOT occupied (shouldBeOccupied = false)
+        HotelRoom room = getValidatedRoom(roomNum, false, rooms);
+        if (room != null) {
             room.checkIn(guest);
             System.out.println(room);
         } else {
@@ -88,8 +101,9 @@ public class Hotel {
      * Checks a guest out of a room.
      */
     public static void checkOut(int roomNum, HotelRoom... rooms) {
-        HotelRoom room = findRoomByNumber(roomNum, rooms);
-        if (room != null && room.isOccupied()) {
+        // We want a room that IS occupied (shouldBeOccupied = true)
+        HotelRoom room = getValidatedRoom(roomNum, true, rooms);
+        if (room != null) {
             room.checkOut();
             System.out.println(room);
         } else {
