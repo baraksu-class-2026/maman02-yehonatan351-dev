@@ -16,20 +16,24 @@ public class HotelRoom {
     public static final int MAX_NUMBEDS = 4;
 
     public HotelRoom(int roomNum, int numBeds) {
-        if (roomNumOk(roomNum)) {
-            _roomNum = roomNum;
-        } else {
-            _roomNum = DEFAULT_ROOM_NUM;
-        }
-
-        if (numBedsOk(numBeds)) {
-            _numBeds = numBeds;
-        } else {
-            _numBeds = DEFAULT_NUM_BEDS;
-        }
-
+        _roomNum = validateRoomNum(roomNum);
+        _numBeds = validateNumBeds(numBeds);
         _occupied = DEFAULT_OCCUPIED;
         _guest = DEFAULT_GUEST;
+    }
+
+    private int validateRoomNum(int roomNum) {
+        if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
+            return roomNum;
+        }
+        return DEFAULT_ROOM_NUM;
+    }
+
+    private int validateNumBeds(int numBeds) {
+        if (numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS) {
+            return numBeds;
+        }
+        return DEFAULT_NUM_BEDS;
     }
 
     public int getRoomNum() {
@@ -49,36 +53,19 @@ public class HotelRoom {
     }
 
     public void setRoomNum(int roomNum) {
-        if (roomNumOk(roomNum)) {
-            _roomNum = roomNum;
-        } else {
-            _roomNum = DEFAULT_ROOM_NUM;
-        }
+        _roomNum = validateRoomNum(roomNum);
     }
 
     public void setNumBeds(int numBeds) {
-        if (numBedsOk(numBeds)) {
-            _numBeds = numBeds;
-        } else {
-            _numBeds = DEFAULT_NUM_BEDS;
-        }
+        _numBeds = validateNumBeds(numBeds);
     }
 
-    private boolean roomNumOk(int roomNum) {
-        return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
-    }
-
-    private boolean numBedsOk(int numBeds) {
-        return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
-    }
-
+    @Override
     public String toString() {
         if (_occupied) {
-            return "Room " + _roomNum + ", " + _numBeds
-                    + " Beds: Occupied by " + _guest;
-        } else {
-            return "Room " + _roomNum + ", " + _numBeds + " Beds: Available";
+            return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
         }
+        return "Room " + _roomNum + ", " + _numBeds + " Beds: Available";
     }
 
     public boolean equals(HotelRoom other) {
@@ -101,9 +88,8 @@ public class HotelRoom {
             _guest = guest;
             _occupied = true;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void checkOut() {
