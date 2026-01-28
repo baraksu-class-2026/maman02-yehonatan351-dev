@@ -1,33 +1,42 @@
 /**
- * Represents a single hotel room.
+ * Represents a room in the hotel.
  */
 public class HotelRoom {
-
-    public static final int DEFAULT_ROOM_NUM = 999;
-    public static final int DEFAULT_NUM_BEDS = 2;
-    public static final boolean DEFAULT_OCCUPIED = false;
-    public static final String DEFAULT_GUEST = "";
-
-    public static final int MIN_ROOMNUM = 100;
-    public static final int MAX_ROOMNUM = 999;
-    public static final int MIN_NUMBEDS = 2;
-    public static final int MAX_NUMBEDS = 4;
 
     private int _roomNum;
     private int _numBeds;
     private boolean _occupied;
     private String _guest;
 
+    // Constants for validation and Checkstyle compliance
+    private static final int MIN_ROOM = 100;
+    private static final int MAX_ROOM = 999;
+    private static final int DEFAULT_ROOM = 999;
+    private static final int MIN_BEDS = 2;
+    private static final int MAX_BEDS = 4;
+    private static final int DEFAULT_BEDS = 2;
+
     /**
-     * Constructor for HotelRoom.
+     * Constructor for HotelRoom with validation.
      */
     public HotelRoom(int roomNum, int numBeds) {
-        _roomNum = validateRoomNum(roomNum);
-        _numBeds = validateNumBeds(numBeds);
-        _occupied = DEFAULT_OCCUPIED;
-        _guest = DEFAULT_GUEST;
+        if (roomNum >= MIN_ROOM && roomNum <= MAX_ROOM) {
+            _roomNum = roomNum;
+        } else {
+            _roomNum = DEFAULT_ROOM;
+        }
+
+        if (numBeds >= MIN_BEDS && numBeds <= MAX_BEDS) {
+            _numBeds = numBeds;
+        } else {
+            _numBeds = DEFAULT_BEDS;
+        }
+        
+        _occupied = false;
+        _guest = "";
     }
 
+    // Getters
     public int getRoomNum() {
         return _roomNum;
     }
@@ -44,28 +53,26 @@ public class HotelRoom {
         return _guest;
     }
 
+    // Setters - Updated logic for Yotam's tests
     public void setRoomNum(int roomNum) {
-        _roomNum = validateRoomNum(roomNum);
+        if (roomNum >= MIN_ROOM && roomNum <= MAX_ROOM) {
+            _roomNum = roomNum;
+        } else {
+            _roomNum = DEFAULT_ROOM;
+        }
     }
 
     public void setNumBeds(int numBeds) {
-        _numBeds = validateNumBeds(numBeds);
-    }
-
-    private int validateRoomNum(int roomNum) {
-        if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
-            return roomNum;
+        if (numBeds >= MIN_BEDS && numBeds <= MAX_BEDS) {
+            _numBeds = numBeds;
+        } else {
+            _numBeds = DEFAULT_BEDS;
         }
-        return DEFAULT_ROOM_NUM;
     }
 
-    private int validateNumBeds(int numBeds) {
-        if (numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS) {
-            return numBeds;
-        }
-        return DEFAULT_NUM_BEDS;
-    }
-
+    /**
+     * Checks a guest into the room. Returns true if successful.
+     */
     public boolean checkIn(String guest) {
         if (!_occupied) {
             _guest = guest;
@@ -75,38 +82,39 @@ public class HotelRoom {
         return false;
     }
 
+    /**
+     * Checks a guest out of the room.
+     */
     public void checkOut() {
-        _guest = DEFAULT_GUEST;
-        _occupied = DEFAULT_OCCUPIED;
+        _guest = "";
+        _occupied = false;
     }
 
-    @Override
-    public String toString() {
-        String status = "Available";
-        if (_occupied) {
-            status = "Occupied by " + _guest;
-        }
-        return "Room " + _roomNum + ", " + _numBeds + " Beds: " + status;
+    // Comparison methods
+    public boolean before(HotelRoom other) {
+        return _roomNum < other.getRoomNum();
     }
 
+    public boolean after(HotelRoom other) {
+        return _roomNum > other.getRoomNum();
+    }
+
+    /**
+     * Compares two rooms based on room number and beds.
+     */
     public boolean equals(HotelRoom other) {
         if (other == null) {
             return false;
         }
-        return _roomNum == other._roomNum && _numBeds == other._numBeds;
+        return _roomNum == other.getRoomNum() && _numBeds == other.getNumBeds();
     }
 
-    public boolean before(HotelRoom other) {
-        if (other == null) {
-            return false;
-        }
-        return _roomNum < other._roomNum;
-    }
-
-    public boolean after(HotelRoom other) {
-        if (other == null) {
-            return false;
-        }
-        return _roomNum > other._roomNum;
+    /**
+     * String representation.
+     */
+    @Override
+    public String toString() {
+        String status = _occupied ? "Occupied by " + _guest : "Available";
+        return "Room " + _roomNum + ", " + _numBeds + " Beds: " + status;
     }
 }
