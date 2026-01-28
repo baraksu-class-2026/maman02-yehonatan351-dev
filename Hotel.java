@@ -5,6 +5,15 @@ import java.util.Scanner;
  */
 public class Hotel {
 
+    // Named constants for Menu Choices to avoid Magic Numbers
+    private static final int MENU_DISPLAY_SORTED = 1;
+    private static final int MENU_CHECK_IN = 2;
+    private static final int MENU_CHECK_OUT = 3;
+    private static final int MENU_FIND_BY_BEDS = 4;
+    
+    // Shared error message to avoid duplication
+    private static final String ERR_ROOM_NOT_FOUND = "Error: Room not available or not found";
+
     /**
      * Displays details of three rooms.
      */
@@ -72,7 +81,6 @@ public class Hotel {
 
     /**
      * Helper method to reduce duplication in checkIn/checkOut.
-     * Verifies if a room exists and matches the required occupancy status.
      */
     private static HotelRoom getValidatedRoom(int roomNum, boolean shouldBeOccupied, 
                                              HotelRoom... rooms) {
@@ -87,13 +95,12 @@ public class Hotel {
      * Checks a guest into a room.
      */
     public static void checkIn(String guest, int roomNum, HotelRoom... rooms) {
-        // We want a room that is NOT occupied (shouldBeOccupied = false)
         HotelRoom room = getValidatedRoom(roomNum, false, rooms);
         if (room != null) {
             room.checkIn(guest);
             System.out.println(room);
         } else {
-            System.out.println("Error: Room not available or not found");
+            System.out.println(ERR_ROOM_NOT_FOUND);
         }
     }
 
@@ -101,13 +108,12 @@ public class Hotel {
      * Checks a guest out of a room.
      */
     public static void checkOut(int roomNum, HotelRoom... rooms) {
-        // We want a room that IS occupied (shouldBeOccupied = true)
         HotelRoom room = getValidatedRoom(roomNum, true, rooms);
         if (room != null) {
             room.checkOut();
             System.out.println(room);
         } else {
-            System.out.println("Error: Room not available or not found");
+            System.out.println(ERR_ROOM_NOT_FOUND);
         }
     }
 
@@ -140,10 +146,10 @@ public class Hotel {
         display(r1, r2, r3);
 
         System.out.println("\nHotel Menu:");
-        System.out.println("1 - Display rooms by room number (ascending)");
-        System.out.println("2 - Check-in");
-        System.out.println("3 - Check-out");
-        System.out.println("4 - Find room by number of beds");
+        System.out.println(MENU_DISPLAY_SORTED + " - Display rooms by room number (ascending)");
+        System.out.println(MENU_CHECK_IN + " - Check-in");
+        System.out.println(MENU_CHECK_OUT + " - Check-out");
+        System.out.println(MENU_FIND_BY_BEDS + " - Find room by number of beds");
         
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter your choice: ");
@@ -158,21 +164,21 @@ public class Hotel {
 
     private static void handleMenu(int choice, Scanner sc, 
                                   HotelRoom r1, HotelRoom r2, HotelRoom r3) {
-        if (choice == 1) {
+        if (choice == MENU_DISPLAY_SORTED) {
             displaySorted(r1, r2, r3);
-        } else if (choice == 2) {
+        } else if (choice == MENU_CHECK_IN) {
             System.out.print("Enter room number: ");
             int num = sc.nextInt();
             sc.nextLine();
             System.out.print("Enter guest name: ");
             String name = sc.nextLine();
             checkIn(name, num, r1, r2, r3);
-        } else if (choice == 3) {
+        } else if (choice == MENU_CHECK_OUT) {
             System.out.print("Enter room number: ");
             int num = sc.nextInt();
             sc.nextLine();
             checkOut(num, r1, r2, r3);
-        } else if (choice == 4) {
+        } else if (choice == MENU_FIND_BY_BEDS) {
             System.out.print("Enter requested number of beds (2-4): ");
             int beds = sc.nextInt();
             sc.nextLine();
