@@ -5,6 +5,7 @@ public class HotelRoom {
     private boolean _occupied;
     private String _guest;
 
+    // קבועים (Constants)
     public static final int DEFAULT_ROOM_NUM = 999;
     public static final int DEFAULT_NUM_BEDS = 2;
     public static final boolean DEFAULT_OCCUPIED = false;
@@ -24,21 +25,10 @@ public class HotelRoom {
     }
 
     // ---------------- Getters ----------------
-    public int getRoomNum() {
-        return _roomNum;
-    }
-
-    public int getNumBeds() {
-        return _numBeds;
-    }
-
-    public boolean isOccupied() {
-        return _occupied;
-    }
-
-    public String getGuest() {
-        return _guest;
-    }
+    public int getRoomNum() { return _roomNum; }
+    public int getNumBeds() { return _numBeds; }
+    public boolean isOccupied() { return _occupied; }
+    public String getGuest() { return _guest; }
 
     // ---------------- Setters ----------------
     public void setRoomNum(int roomNum) {
@@ -54,6 +44,7 @@ public class HotelRoom {
         if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
             return roomNum;
         } else {
+            // תיקון Magic Number: שימוש בקבוע במקום ב-999
             return DEFAULT_ROOM_NUM;
         }
     }
@@ -72,40 +63,37 @@ public class HotelRoom {
             _guest = guest;
             _occupied = true;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void checkOut() {
-        _guest = "";
-        _occupied = false;
+        _guest = DEFAULT_GUEST;
+        _occupied = DEFAULT_OCCUPIED;
     }
 
     // ---------------- Utility ----------------
     @Override
     public String toString() {
         if (_occupied) {
-            return "Room " + _roomNum + ", " + _numBeds
-                    + " Beds: Occupied by " + _guest;
+            return "Room " + _roomNum + ", " + _numBeds + " Beds: Occupied by " + _guest;
         } else {
-            return "Room " + _roomNum + ", " + _numBeds
-                    + " Beds: Available";
+            return "Room " + _roomNum + ", " + _numBeds + " Beds: Available";
         }
     }
 
     public boolean equals(HotelRoom other) {
-        if (other == null) {
-            return false;
-        }
+        if (other == null) return false;
         return _roomNum == other._roomNum && _numBeds == other._numBeds;
     }
 
     public boolean before(HotelRoom other) {
+        if (other == null) return false;
         return _roomNum < other._roomNum;
     }
 
     public boolean after(HotelRoom other) {
-        return other.before(this);
+        if (other == null) return false;
+        return _roomNum > other._roomNum;
     }
 }
