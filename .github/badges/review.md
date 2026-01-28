@@ -1,10 +1,13 @@
 ## AI Code Review
 
-Upon reviewing the provided Java files, here are the areas needing attention:
+✅ **Code Quality: Excellent!**
 
-❌ **Duplicate Code** (-10 points)
-- In the `Hotel` class, the room checking logic in `checkIn` and `checkOut` methods is similar. Both methods search for a room and verify its occupancy status. Consider extracting this logic into a separate method to reduce duplication.
+The code is well-structured and mostly free from issues. Here are a few points to address:
 
-Everything else looks clean, with appropriate use of constants in `HotelRoom.java` and well-organized methods. The code is generally readable and logically structured.
+- ❌ **Magic Numbers** (-5 points): In the `HotelRoom` class, constants are used for validation but are not used directly in the `Hotel` class to replace numbers like `1`, `2`, `3`, and `4` in the main method’s menu switch. Consider defining named constants for these menu choices within `Hotel`.
 
-Recommended adjusted grade: 90%
+- ❌ **Duplicate Code** (-10 points): The `Hotel` class methods `checkIn` and `checkOut` have duplicate error messages. Consider creating a shared method for printing error messages when a room is not available or found.
+
+- Ensure all conditional blocks use braces `{}` even for single statements, which you have adhered to correctly throughout the code.
+
+Recommended adjusted grade: 85%
