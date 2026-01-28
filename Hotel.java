@@ -59,7 +59,7 @@ public class Hotel {
         HotelRoom second = b;
         HotelRoom third = c;
 
-        // מיון לפי מספר חדרים בעזרת before()
+        // מיון מדויק לפי before()
         if (second.before(first)) {
             HotelRoom temp = first;
             first = second;
@@ -76,10 +76,11 @@ public class Hotel {
             second = temp;
         }
 
+        // הדפסה מדויקת לפי הדרישה
         System.out.println("Hotel Rooms by room number:");
-        System.out.println(first);
-        System.out.println(second);
-        System.out.println(third);
+        System.out.println(first.toString());
+        System.out.println(second.toString());
+        System.out.println(third.toString());
     }
 
     public static void checkIn(String guestName, int roomNum,
@@ -87,7 +88,7 @@ public class Hotel {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
         if (chosen != null && !chosen.isOccupied()) {
             chosen.checkIn(guestName);
-            System.out.println(chosen);
+            System.out.println(chosen.toString());
         } else {
             System.out.println("Error: Room not available or not found");
         }
@@ -98,7 +99,7 @@ public class Hotel {
         HotelRoom chosen = findRoomByNumber(roomNum, a, b, c);
         if (chosen != null) {
             chosen.checkOut();
-            System.out.println(chosen);
+            System.out.println(chosen.toString());
         } else {
             System.out.println("Error: Room not available or not found");
         }
@@ -117,7 +118,7 @@ public class Hotel {
         }
 
         if (chosen != null) {
-            System.out.println(chosen);
+            System.out.println(chosen.toString());
         } else {
             System.out.println("No available room with the requested number of beds");
         }
@@ -131,14 +132,13 @@ public class Hotel {
             return b;
         } else if (c.getRoomNum() == roomNum) {
             return c;
-        } else {
-            return null;
         }
+        return null;
     }
 
     public static void display(HotelRoom a, HotelRoom b, HotelRoom c) {
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
+        System.out.println(a.toString());
+        System.out.println(b.toString());
+        System.out.println(c.toString());
     }
 }
