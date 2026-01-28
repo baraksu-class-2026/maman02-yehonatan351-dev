@@ -3,11 +3,11 @@ import java.util.Scanner;
 public class Hotel {
 
     public static void main(String[] args) {
-        Scanner reader = new Scanner(System.in);
+        final Scanner reader = new Scanner(System.in);
 
-        HotelRoom a = new HotelRoom(307, 4);
-        HotelRoom b = new HotelRoom(205, 3);
-        HotelRoom c = new HotelRoom(402, 2);
+        final HotelRoom a = new HotelRoom(307, 4);
+        final HotelRoom b = new HotelRoom(205, 3);
+        final HotelRoom c = new HotelRoom(402, 2);
 
         b.checkIn("Guest Test");
 
@@ -22,10 +22,11 @@ public class Hotel {
         reader.nextLine();
 
         switch (choice) {
-            case 1:
+            case 1: {
                 displaySorted(a, b, c);
                 break;
-            case 2:
+            }
+            case 2: {
                 System.out.print("Enter room number: ");
                 int roomNumCheckIn = reader.nextInt();
                 reader.nextLine();
@@ -33,33 +34,37 @@ public class Hotel {
                 String guestName = reader.nextLine();
                 checkIn(guestName, roomNumCheckIn, a, b, c);
                 break;
-            case 3:
+            }
+            case 3: {
                 System.out.print("Enter room number: ");
                 int roomNumCheckOut = reader.nextInt();
                 checkOut(roomNumCheckOut, a, b, c);
                 break;
-            case 4:
+            }
+            case 4: {
                 System.out.print("Enter requested number of beds (2-4): ");
                 int numBeds = reader.nextInt();
                 findAvailableByBeds(numBeds, a, b, c);
                 break;
-            default:
+            }
+            default: {
                 System.out.println("Error: Invalid menu choice");
                 break;
+            }
         }
 
         reader.close();
     }
 
     public static void displaySorted(HotelRoom a, HotelRoom b, HotelRoom c) {
-        HotelRoom first, second, third;
+        HotelRoom first;
+        HotelRoom second;
+        HotelRoom third;
 
-        // נתחיל עם a כראשון
         first = a;
         second = b;
         third = c;
 
-        // סידור לפי roomNum
         if (second.before(first)) {
             HotelRoom temp = first;
             first = second;
@@ -124,9 +129,15 @@ public class Hotel {
 
     public static HotelRoom findRoomByNumber(int roomNum,
                                              HotelRoom a, HotelRoom b, HotelRoom c) {
-        if (a.getRoomNum() == roomNum) return a;
-        if (b.getRoomNum() == roomNum) return b;
-        if (c.getRoomNum() == roomNum) return c;
+        if (a.getRoomNum() == roomNum) {
+            return a;
+        }
+        if (b.getRoomNum() == roomNum) {
+            return b;
+        }
+        if (c.getRoomNum() == roomNum) {
+            return c;
+        }
         return null;
     }
 
