@@ -1,25 +1,19 @@
 ## Grade
 
-[![Grade](https://img.shields.io/badge/Grade-0%25-red)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438834543)
-
-## Coding Standards
-
-❌ **Coding Standard Failed (-25 points)** - [View Checkstyle Report](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438834543)
+[![Grade](https://img.shields.io/badge/Grade-83%25-green)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438847858) *(Original: 98%, Penalties: -15)*
 
 ## Tests
 
-[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438834543)
+[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438847858)
 
 ## AI Code Review
 
-✅ **Code Quality: Excellent!** 
+Great job on the code! However, there are a couple of points that need your attention:
 
-I've reviewed the provided Java files, and most of the code is well-structured and follows the given rules. There are a few points that need your attention:
+❌ **Duplicate Code** (-10 points)
+- In the `HotelRoom` class, the logic for checking room number and number of beds appears in both the constructor and the setter methods (`setRoomNum` and `setNumBeds`). This validation logic should be extracted into a separate method or approach so that it exists in only one place in order to reduce duplication and improve maintainability.
 
-❌ **Duplicate Code** (-10 points):  
-In the `HotelRoom` class, the constructor and the `setRoomNum` and `setNumBeds` methods have similar validation logic for checking the validity of room numbers and bed numbers. This logic should be placed in one method only to avoid duplication.
+❌ **Magic Numbers** (-5 points)
+- In the `HotelRoom` class constructor, there are direct checks against the bounds for room numbers and beds (e.g., 307, 4, 205, 3, 402, 2 in `Hotel.main()`). Ensure that these checks use the defined constants (`MIN_ROOMNUM`, `MAX_ROOMNUM`, `MIN_NUMBEDS`, `MAX_NUMBEDS`) consistently.
 
-❌ **Magic Numbers** (-5 points):  
-In the `Hotel` class, when printing the menu choice for beds, the range values (2-4) are used directly. These should be defined as named constants in the `HotelRoom` class (MIN_NUMBEDS and MAX_NUMBEDS) to eliminate magic numbers outside of the main method.
-
-Addressing these issues will improve your code's quality by enhancing maintainability and adherence to best practices. Keep up the great work! Recommended adjusted grade: 85%
+Recommended adjusted grade: 85%
