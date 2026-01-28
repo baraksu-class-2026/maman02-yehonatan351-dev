@@ -1,17 +1,10 @@
 ## AI Code Review
 
-The code is quite well-written and structured. However, there are a couple of areas that require attention in order to improve code quality and adhere to the requirements:
+Upon reviewing the provided Java files, here are the areas needing attention:
 
---- File: ./Hotel.java ---
-- ✅ **Code Quality: Excellent!** The main logic is clear, and magic numbers are properly used within main() for testing purposes.
+❌ **Duplicate Code** (-10 points)
+- In the `Hotel` class, the room checking logic in `checkIn` and `checkOut` methods is similar. Both methods search for a room and verify its occupancy status. Consider extracting this logic into a separate method to reduce duplication.
 
---- File: ./HotelRoom.java ---
-- ❌ **Duplicate Code** (-10 points)
-  - There is duplicate validation logic in the `setRoomNum` and `HotelRoom` constructor. Since the constructor calls the `setRoomNum` method with validation logic already included, eliminate duplicate validation in the constructor.
-  - Similarly, duplicate validation exists in `setNumBeds` and the constructor. Utilize the `setNumBeds` within the constructor to avoid duplication.
-
-- ✅ **Magic Numbers:** Constants are used appropriately outside of main for validation purposes, adhering to the guidelines.
-
-- Braces are used consistently within all conditional and loop statements, which is excellent.
+Everything else looks clean, with appropriate use of constants in `HotelRoom.java` and well-organized methods. The code is generally readable and logically structured.
 
 Recommended adjusted grade: 90%
