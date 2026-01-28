@@ -1,9 +1,9 @@
 public class HotelRoom {
 
-    private int _roomNum;
-    private int _numBeds;
-    private boolean _occupied;
-    private String _guest;
+    private int roomNum;
+    private int numBeds;
+    private boolean occupied;
+    private String guest;
 
     public static final int DEFAULT_ROOM_NUM = 999;
     public static final int DEFAULT_NUM_BEDS = 2;
@@ -15,63 +15,80 @@ public class HotelRoom {
     public static final int MIN_NUMBEDS = 2;
     public static final int MAX_NUMBEDS = 4;
 
+    // ---------------- Constructor ----------------
     public HotelRoom(int roomNum, int numBeds) {
-        setRoomNum(roomNum);
-        setNumBeds(numBeds);
-        _occupied = DEFAULT_OCCUPIED;
-        _guest = DEFAULT_GUEST;
+        this.roomNum = validateRoomNum(roomNum);
+        this.numBeds = validateNumBeds(numBeds);
+        this.occupied = DEFAULT_OCCUPIED;
+        this.guest = DEFAULT_GUEST;
     }
 
+    // ---------------- Getters ----------------
     public int getRoomNum() {
-        return _roomNum;
+        return roomNum;
     }
 
     public int getNumBeds() {
-        return _numBeds;
+        return numBeds;
     }
 
     public boolean isOccupied() {
-        return _occupied;
+        return occupied;
     }
 
     public String getGuest() {
-        return _guest;
+        return guest;
     }
 
+    // ---------------- Setters ----------------
     public void setRoomNum(int roomNum) {
-        if (roomNumOk(roomNum)) {
-            _roomNum = roomNum;
-        } else {
-            _roomNum = DEFAULT_ROOM_NUM;
-        }
+        this.roomNum = validateRoomNum(roomNum);
     }
 
     public void setNumBeds(int numBeds) {
-        if (numBedsOk(numBeds)) {
-            _numBeds = numBeds;
+        this.numBeds = validateNumBeds(numBeds);
+    }
+
+    // ---------------- Validation ----------------
+    private int validateRoomNum(int roomNum) {
+        if (roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM) {
+            return roomNum;
         } else {
-            _numBeds = DEFAULT_NUM_BEDS;
+            return DEFAULT_ROOM_NUM;
         }
     }
 
-    private boolean roomNumOk(int roomNum) {
-        return roomNum >= MIN_ROOMNUM && roomNum <= MAX_ROOMNUM;
+    private int validateNumBeds(int numBeds) {
+        if (numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS) {
+            return numBeds;
+        } else {
+            return DEFAULT_NUM_BEDS;
+        }
     }
 
-    private boolean numBedsOk(int numBeds) {
-        return numBeds >= MIN_NUMBEDS && numBeds <= MAX_NUMBEDS;
+    // ---------------- Room status ----------------
+    public boolean checkIn(String guest) {
+        if (!occupied) {
+            this.guest = guest;
+            this.occupied = true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    public void checkOut() {
+        this.guest = "";
+        this.occupied = false;
+    }
+
+    // ---------------- Utility ----------------
     @Override
     public String toString() {
-        if (_occupied) {
-            return "Room " + _roomNum
-                    + ", " + _numBeds
-                    + " Beds: Occupied by " + _guest;
+        if (occupied) {
+            return "Room " + roomNum + ", " + numBeds + " Beds: Occupied by " + guest;
         } else {
-            return "Room " + _roomNum
-                    + ", " + _numBeds
-                    + " Beds: Available";
+            return "Room " + roomNum + ", " + numBeds + " Beds: Available";
         }
     }
 
@@ -79,28 +96,14 @@ public class HotelRoom {
         if (other == null) {
             return false;
         }
-        return _roomNum == other._roomNum && _numBeds == other._numBeds;
+        return this.roomNum == other.roomNum && this.numBeds == other.numBeds;
     }
 
     public boolean before(HotelRoom other) {
-        return _roomNum < other._roomNum;
+        return this.roomNum < other.roomNum;
     }
 
     public boolean after(HotelRoom other) {
         return other.before(this);
-    }
-
-    public boolean checkIn(String guest) {
-        if (!_occupied) {
-            _guest = guest;
-            _occupied = true;
-            return true;
-        }
-        return false;
-    }
-
-    public void checkOut() {
-        _occupied = false;
-        _guest = "";
     }
 }
