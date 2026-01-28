@@ -8,7 +8,7 @@ public class HotelRoom {
     private boolean _occupied;
     private String _guest;
 
-    // Constants for validation and Checkstyle compliance
+    // Constants for validation
     private static final int MIN_ROOM = 100;
     private static final int MAX_ROOM = 999;
     private static final int DEFAULT_ROOM = 999;
@@ -17,21 +17,12 @@ public class HotelRoom {
     private static final int DEFAULT_BEDS = 2;
 
     /**
-     * Constructor for HotelRoom with validation.
+     * Constructor for HotelRoom.
+     * Uses setter methods to avoid duplicate validation logic.
      */
     public HotelRoom(int roomNum, int numBeds) {
-        if (roomNum >= MIN_ROOM && roomNum <= MAX_ROOM) {
-            _roomNum = roomNum;
-        } else {
-            _roomNum = DEFAULT_ROOM;
-        }
-
-        if (numBeds >= MIN_BEDS && numBeds <= MAX_BEDS) {
-            _numBeds = numBeds;
-        } else {
-            _numBeds = DEFAULT_BEDS;
-        }
-        
+        setRoomNum(roomNum);
+        setNumBeds(numBeds);
         _occupied = false;
         _guest = "";
     }
@@ -53,7 +44,9 @@ public class HotelRoom {
         return _guest;
     }
 
-    // Setters - Updated logic for Yotam's tests
+    /**
+     * Sets the room number with validation.
+     */
     public void setRoomNum(int roomNum) {
         if (roomNum >= MIN_ROOM && roomNum <= MAX_ROOM) {
             _roomNum = roomNum;
@@ -62,6 +55,9 @@ public class HotelRoom {
         }
     }
 
+    /**
+     * Sets the number of beds with validation.
+     */
     public void setNumBeds(int numBeds) {
         if (numBeds >= MIN_BEDS && numBeds <= MAX_BEDS) {
             _numBeds = numBeds;
@@ -90,7 +86,6 @@ public class HotelRoom {
         _occupied = false;
     }
 
-    // Comparison methods
     public boolean before(HotelRoom other) {
         return _roomNum < other.getRoomNum();
     }
@@ -109,9 +104,6 @@ public class HotelRoom {
         return _roomNum == other.getRoomNum() && _numBeds == other.getNumBeds();
     }
 
-    /**
-     * String representation.
-     */
     @Override
     public String toString() {
         String status = _occupied ? "Occupied by " + _guest : "Available";
