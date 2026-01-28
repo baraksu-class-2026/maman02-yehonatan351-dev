@@ -1,21 +1,21 @@
 ## Grade
 
-[![Grade](https://img.shields.io/badge/Grade-0%25-red)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438429138)
-
-## Coding Standards
-
-❌ **Coding Standard Failed (-25 points)** - [View Checkstyle Report](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438429138)
+[![Grade](https://img.shields.io/badge/Grade-83%25-green)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438506390) *(Original: 98%, Penalties: -15)*
 
 ## Tests
 
-[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438429138)
+[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21438506390)
 
 ## AI Code Review
 
-✅ **Code Quality: Excellent!**
+✅ **Code Quality: Excellent!** 
 
-Your code is well-structured, readable, and logically organized. Here are a few points to address:
+I've reviewed the provided Java files, and most of the code is well-structured and follows the given rules. There are a few points that need your attention:
 
-- ❌ **Duplicate Code** (-10 points): In `HotelRoom.java`, the validation logic for room numbers (`roomNumOk`) and bed counts (`numBedsOk`) appears multiple times, both in constructor and setter methods. Consider refactoring to ensure these checks are performed in one method only within the class to avoid duplication. Shared logic should be extracted to central places to enhance maintainability.
+❌ **Duplicate Code** (-10 points):  
+In the `HotelRoom` class, the constructor and the `setRoomNum` and `setNumBeds` methods have similar validation logic for checking the validity of room numbers and bed numbers. This logic should be placed in one method only to avoid duplication.
 
-Recommended adjusted grade: 90%
+❌ **Magic Numbers** (-5 points):  
+In the `Hotel` class, when printing the menu choice for beds, the range values (2-4) are used directly. These should be defined as named constants in the `HotelRoom` class (MIN_NUMBEDS and MAX_NUMBEDS) to eliminate magic numbers outside of the main method.
+
+Addressing these issues will improve your code's quality by enhancing maintainability and adherence to best practices. Keep up the great work! Recommended adjusted grade: 85%
