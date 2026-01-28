@@ -1,15 +1,25 @@
 ## Grade
 
-[![Grade](https://img.shields.io/badge/Grade-90%25-brightgreen)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441651950) *(Original: 100%, Penalties: -10)*
+[![Grade](https://img.shields.io/badge/Grade-90%25-brightgreen)](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441763359) *(Original: 100%, Penalties: -10)*
 
 ## Tests
 
-[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441651950)
+[📊 View Test Reports](https://github.com/baraksu-class-2026/maman02-yehonatan351-dev/actions/runs/21441763359)
 
 ## AI Code Review
 
-✅ **Code Quality: Excellent!** Your code is well-organized, and the logic flows smoothly. It adheres to the given standards for using braces and managing logic within the `Hotel` and `HotelRoom` classes. Additionally, there are no issues with magic numbers as they are correctly replaced by named constants outside the `main()` method.
+The code is quite well-written and structured. However, there are a couple of areas that require attention in order to improve code quality and adhere to the requirements:
 
-❌ **Duplicate Code** (-10 points): There is duplicate code in the `HotelRoom` class. The validation logic for room numbers and bed counts is identical in both the constructor and the respective setter methods (`setRoomNum` and `setNumBeds`). You should refactor this logic into a separate method to avoid duplication and ensure the code is easier to maintain and modify if needed. This method would allow both the constructor and setter methods to share the same validation logic, reducing redundancy. 
+--- File: ./Hotel.java ---
+- ✅ **Code Quality: Excellent!** The main logic is clear, and magic numbers are properly used within main() for testing purposes.
+
+--- File: ./HotelRoom.java ---
+- ❌ **Duplicate Code** (-10 points)
+  - There is duplicate validation logic in the `setRoomNum` and `HotelRoom` constructor. Since the constructor calls the `setRoomNum` method with validation logic already included, eliminate duplicate validation in the constructor.
+  - Similarly, duplicate validation exists in `setNumBeds` and the constructor. Utilize the `setNumBeds` within the constructor to avoid duplication.
+
+- ✅ **Magic Numbers:** Constants are used appropriately outside of main for validation purposes, adhering to the guidelines.
+
+- Braces are used consistently within all conditional and loop statements, which is excellent.
 
 Recommended adjusted grade: 90%
